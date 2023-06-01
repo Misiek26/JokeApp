@@ -3,8 +3,15 @@ package com.JokeApp.Project.service;
 import com.JokeApp.Project.model.Joke;
 import com.JokeApp.Project.repository.JokeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +32,18 @@ public class JokeService {
         return jokeRepository.findById(id);
     }
 
+    public Page<Joke> getAllJokesPageable(Pageable pageable){
+        return  jokeRepository.findAll(pageable);
+    }
+
+    public List<Joke> getJokesByCategory(String categoryName){
+        return jokeRepository.findAllByCategory(categoryName);
+    }
+
     public Joke createJoke(Joke joke) {
+        LocalDateTime created = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        joke.setCreated(created.format(format));
         return jokeRepository.save(joke);
     }
 

@@ -2,6 +2,8 @@ package com.JokeApp.Project.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "jokes")
 public class Joke {
@@ -16,14 +18,21 @@ public class Joke {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private String created;
+
     public Joke() {
         // Default constructor required by JPA
     }
 
-    public Joke(String setup, String punchline, Category category) {
+    public Joke(String setup, String punchline, Category category, User user) {
         this.setup = setup;
         this.punchline = punchline;
         this.category = category;
+        this.user = user;
     }
 
     // Getters and setters
@@ -58,5 +67,21 @@ public class Joke {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 }
