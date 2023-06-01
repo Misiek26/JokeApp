@@ -1,6 +1,6 @@
 package com.JokeApp.Project.model;
 
-public class JokeDouble {
+public class ExternalJokeDouble {
     private boolean error;
     private String category;
     private String type;

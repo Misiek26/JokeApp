@@ -1,16 +1,16 @@
-package com.JokeApp.Project.externalapi;
+package com.JokeApp.Project.controller;
 
+import com.JokeApp.Project.service.ConnectWithExternalApiService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
 @Controller
-public class ReadJokeFromExternalApi {
+public class ExternalApiController {
 
     @Autowired
     private HttpServletRequest request;
@@ -25,7 +25,7 @@ public class ReadJokeFromExternalApi {
         String url = null;
         if(request.getQueryString()!=null)
             url = request.getQueryString();
-        ConnectWithJokeApi connect = new ConnectWithJokeApi("https://v2.jokeapi.dev/joke/Any?" + url);
+        ConnectWithExternalApiService connect = new ConnectWithExternalApiService("https://v2.jokeapi.dev/joke/Any?" + url);
         String joke = connect.getRandomJoke();
         model.addAttribute("jokeText", joke);
         return "externalJoke";
@@ -36,7 +36,7 @@ public class ReadJokeFromExternalApi {
         String url = "/Any";
         if(request.getQueryString()!=null)
             url = request.getQueryString();
-        ConnectWithJokeApi connect = new ConnectWithJokeApi("https://v2.jokeapi.dev/joke?" + url);
+        ConnectWithExternalApiService connect = new ConnectWithExternalApiService("https://v2.jokeapi.dev/joke?" + url);
         String joke = connect.getRandomJoke();
         model.addAttribute("jokeText", joke);
         return "externalJoke";
@@ -49,7 +49,7 @@ public class ReadJokeFromExternalApi {
         url = url.replace("http://localhost:8080/api/external/joke", "https://v2.jokeapi.dev/joke");
         if(request.getQueryString()!=null)
             url += "?" + request.getQueryString();
-        ConnectWithJokeApi connect = new ConnectWithJokeApi(url);
+        ConnectWithExternalApiService connect = new ConnectWithExternalApiService(url);
         String joke = connect.getRandomJoke();
         model.addAttribute("jokeText", joke);
         return "externalJoke";

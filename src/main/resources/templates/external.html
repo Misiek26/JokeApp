@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>External joke generator</title>
+    <title>External externalJoke generator</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -16,7 +16,7 @@
     <table>
         <tr>
             <td>
-                Select <a href="#categories">category / categories</a>:
+                Select category / categories
             </td>
             <td>
                 <div class="multiselect noselect" id="categoryWrapper">
@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <td>
-                Select <a href="#languages-endpoint">language</a>:
+                Select language:
             </td>
             <td>
                 <div class="multiselect noselect">
@@ -56,7 +56,7 @@
         </tr>
         <tr>
             <td>
-                Select <a href="#blacklist-flags">flags</a> to blacklist:
+                Select flags to blacklist:
             </td>
             <td>
                 <div class="multiselect noselect">
@@ -72,7 +72,7 @@
         </tr>
         <tr>
             <td>
-                Select <a href="#response-formats">response format</a>:
+                Select response format:
             </td>
             <td>
                 <div class="multiselect noselect">
@@ -85,7 +85,7 @@
         </tr>
         <tr>
             <td>
-                Select at least one <a href="#joke-type">joke type</a>:
+                Select at least one externalJoke type:
             </td>
             <td>
                 <div class="multiselect noselect" id="typeSelectWrapper">
@@ -96,7 +96,7 @@
         </tr>
         <tr>
             <td>
-                Search for a joke that<br>contains this <a href="#search-string">search string</a>:
+                Search for a externalJoke that<br>contains this search string:
             </td>
             <td>
                 <div class="multiselect noselect">
@@ -106,7 +106,7 @@
         </tr>
         <tr>
             <td>
-                Search for a joke<br>in this <a href="#id-range">ID range</a>:
+                Search for a externalJoke<br>in this ID range:
             </td>
             <td>
                 <div class="multiselect noselect" id="idRangeWrapper">
@@ -135,7 +135,7 @@
 <input type="hidden" id="urlBuilderUrl" value="https://v2.jokeapi.dev/joke/Any"/>
 
 <div id="jokeContent" class="container mt-4 mb-4 p-4 border" align="center">
-    <h5 class="p-3">Generate new joke...</h5>
+    <h5 class="p-3">Generate new external Joke...</h5>
 </div>
 <script src="/js/external.js"></script>
 </body>

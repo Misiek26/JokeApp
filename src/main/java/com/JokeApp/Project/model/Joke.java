@@ -1,44 +1,62 @@
 package com.JokeApp.Project.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "jokes")
 public class Joke {
-    private boolean error;
-    private String category;
-    private String type;
-    private String joke;
-    private Flag flags;
-    private int id;
-    private boolean safe;
-    private String lang;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public boolean isError() {
-        return error;
+    private String setup;
+    private String punchline;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Joke() {
+        // Default constructor required by JPA
     }
 
-    public String getCategory() {
-        return category;
+    public Joke(String setup, String punchline, Category category) {
+        this.setup = setup;
+        this.punchline = punchline;
+        this.category = category;
     }
 
-    public String getType() {
-        return type;
-    }
+    // Getters and setters
 
-    public String getJoke() {
-        return joke;
-    }
-
-    public Flag getFlags() {
-        return flags;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public boolean isSafe() {
-        return safe;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getLang() {
-        return lang;
+    public String getSetup() {
+        return setup;
+    }
+
+    public void setSetup(String setup) {
+        this.setup = setup;
+    }
+
+    public String getPunchline() {
+        return punchline;
+    }
+
+    public void setPunchline(String punchline) {
+        this.punchline = punchline;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

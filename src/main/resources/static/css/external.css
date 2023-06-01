@@ -369,7 +369,6 @@ input#f_customLang {
     border: 1px solid #fff;
     border-style: none none none solid;
 }
-
 table tr td.g, span.col.g {
     color: #65b365;
 }
@@ -380,6 +379,11 @@ table tr td.r, span.col.r {
 
 table tr td.dr, span.col.dr {
     color: #aa2828;
+}
+
+table tr td:nth-child(1){
+    color:#8f9aff;
+    padding-right:20px;
 }
 
 .colB {
@@ -1074,7 +1078,7 @@ div.sidenavSpacer {
     vertical-align: middle;
 }
 
-#tryItContainer table tr:not(:last-of-type) > td {
+table tr:not(:last-of-type) > td {
     padding-bottom: 15px;
 }
 
