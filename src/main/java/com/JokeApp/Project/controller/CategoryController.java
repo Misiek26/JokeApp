@@ -26,6 +26,11 @@ public class CategoryController {
         return categoryService.getAllCategories();
     }
 
+    @GetMapping("/sorted")
+    public List<Category> getAllCategoriesSortedByName() {
+        return categoryService.getAllCategoriesSortedByName();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Optional<Category> optionalCategory = categoryService.getCategoryById(id);

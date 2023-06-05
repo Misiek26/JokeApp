@@ -42,7 +42,7 @@ public class MainController {
     public String getCategories(Model model){
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<Category[]> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/categories", Category[].class);
+        ResponseEntity<Category[]> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/categories/sorted", Category[].class);
 
         List<Category> categories = List.of(responseEntity.getBody());
         model.addAttribute("categories", categories);
@@ -69,5 +69,16 @@ public class MainController {
         Collections.shuffle(jokes);
         model.addAttribute("jokes", jokes);
         return "explore";
+    }
+
+    @GetMapping("/manage")
+    public String getManage(){
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        Joke[] jokesArray = restTemplate.getForObject("http://localhost:8080/api/jokes", Joke[].class);
+//        List<Joke> jokes = Arrays.asList(jokesArray);
+//        Collections.shuffle(jokes);
+//        model.addAttribute("jokes", jokes);
+        return "manage";
     }
 }

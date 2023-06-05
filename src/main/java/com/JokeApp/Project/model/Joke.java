@@ -2,7 +2,7 @@ package com.JokeApp.Project.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "jokes")
@@ -31,6 +31,13 @@ public class Joke {
     public Joke(String setup, String punchline, Category category, User user) {
         this.setup = setup;
         this.punchline = punchline;
+        this.category = category;
+        this.user = user;
+    }
+
+    public Joke(String setup, Category category, User user) {
+        this.setup = setup;
+        this.punchline = "";
         this.category = category;
         this.user = user;
     }

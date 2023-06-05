@@ -10,3 +10,12 @@ function displayUserJokes(){
 }
 
 displayUserJokes();
+
+function displaySuccessCommunicat(){
+    let urlParams = new URLSearchParams(location.search);
+    let communicat = urlParams.get('success');
+    if(communicat != null)
+        document.getElementById("success").style.visibility = "visible";
+}
+
+displaySuccessCommunicat();

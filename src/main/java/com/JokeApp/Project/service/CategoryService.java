@@ -3,6 +3,7 @@ package com.JokeApp.Project.service;
 import com.JokeApp.Project.model.Category;
 import com.JokeApp.Project.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,17 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public List<Category> getAllCategoriesSortedByName() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "name");
+        return categoryRepository.findAll(sort);
+    }
+
     public Optional<Category> getCategoryById(Long id) {
         return categoryRepository.findById(id);
+    }
+
+    public Optional<Category> getCategoryByName(String name) {
+        return categoryRepository.findByName(name);
     }
 
     public Category createCategory(Category category) {

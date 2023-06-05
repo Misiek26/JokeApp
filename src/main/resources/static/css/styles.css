@@ -11258,3 +11258,11 @@ body {
 .list-group{
     border:1px solid #0000008f!important;
 }
+
+.form-group{
+    margin:5px 0;
+}
+
+form #category:hover{
+    cursor:pointer;
+}
