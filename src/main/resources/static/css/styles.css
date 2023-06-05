@@ -11266,3 +11266,8 @@ body {
 form #category:hover{
     cursor:pointer;
 }
+
+td button{
+    margin:0 10%;
+    width:80%;
+}

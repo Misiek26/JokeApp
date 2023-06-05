@@ -1,6 +1,7 @@
 package com.JokeApp.Project.controller;
 
 import com.JokeApp.Project.model.Category;
+import com.JokeApp.Project.model.Joke;
 import com.JokeApp.Project.model.UserJoke;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -43,5 +44,20 @@ public class ManageController {
         model.addAttribute("userJokes", userJokes);
 
         return "manage/update-joke";
+    }
+
+    @GetMapping("/update-joke/{id}")
+    public String updateJokeByIdForm(Model model, @PathVariable Long id) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+
+        Joke joke = restTemplate.getForObject("http://localhost:8080/api/jokes/" + id, Joke.class);
+
+        ResponseEntity<Category[]> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/categories/sorted", Category[].class);
+        List<Category> categories = List.of(responseEntity.getBody());
+
+        model.addAttribute("joke", joke);
+        model.addAttribute("categories", categories);
+
+        return "manage/update-joke-form";
     }
 }

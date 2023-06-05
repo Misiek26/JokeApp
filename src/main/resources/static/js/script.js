@@ -21,5 +21,31 @@ function displaySuccessCommunicat(){
 displaySuccessCommunicat();
 
 function updateJoke(id){
-    console.log(id);
+    location.href="http://localhost:8080/manage/update-joke/" + id;
+}
+
+function updateJokeForm(){
+    let url = location.href;
+    let parts = url.split('/');
+    let jokeId = parseInt(parts[parts.length - 1]);
+    let setupValue = document.getElementById('setup').value;
+    let punchlineValue = document.getElementById("punchline").value;
+    let categoryNameValue = document.getElementById("category").value;
+    let userId = 1;
+
+    const formData = new FormData();
+    formData.append("setup", setupValue);
+    formData.append("punchline", punchlineValue);
+    formData.append("category", categoryNameValue);
+
+    fetch('/api/jokes/'+jokeId,{
+       method: "PUT",
+       body: formData
+    }).then(response => {
+          if (response.ok) {
+              location.href="http://localhost:8080/manage/update-joke?success";
+          } else {
+              location.href="http://localhost:8080/error";
+          }
+      })
 }

@@ -99,10 +99,32 @@ public class JokeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Joke> updateJoke(@PathVariable Long id, @RequestBody Joke updatedJoke) {
-        Joke joke = jokeService.updateJoke(id, updatedJoke);
-        if (joke != null) {
-            return ResponseEntity.ok(joke);
+    public ResponseEntity<Joke> updateJoke(@PathVariable Long id,
+                                           @RequestParam("setup") String setup,
+                                           @RequestParam("punchline") String punchline,
+                                           @RequestParam("category") String categoryName) {
+
+
+        Optional<Joke> jokeToUpdate = jokeService.getJokeById(id);
+        Joke joke = new Joke();
+
+        if(jokeToUpdate.isPresent()){
+            joke = jokeToUpdate.get();
+        }
+
+        joke.setSetup(setup);
+        joke.setPunchline(punchline);
+
+        Optional<Category> category = categoryService.getCategoryByName(categoryName);
+
+        if(category.isPresent()){
+            joke.setCategory(category.get());
+        }
+
+        Joke jokeAfterUpdate = jokeService.updateJoke(id, joke);
+
+        if (jokeAfterUpdate != null) {
+            return ResponseEntity.ok(jokeAfterUpdate);
         }
         return ResponseEntity.notFound().build();
     }
