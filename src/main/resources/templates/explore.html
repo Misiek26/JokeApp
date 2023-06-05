@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Joke App - Jokes Category</title>
+    <title>Joke App - Explore Jokes</title>
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -42,14 +42,13 @@
                 <h1 class="mt-4">Joke App</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item"><a href="/">Main Panel</a></li>
-                    <li class="breadcrumb-item"><a href="/categories">Categories</a></li>
-                    <li class="breadcrumb-item active" th:text="${jokes.get(0).getCategory().getName()}"></li>
+                    <li class="breadcrumb-item active">Explore</li>
                 </ol>
-                <div class="card mb-4 ">
+                <div class="card mb-4"  th:each="joke : ${jokes}">
                     <div class="card-header">
-                        <b th:text="'Explore jokes of category: ' + ${jokes.get(0).getCategory().getName()}"></b>
+                        <b th:text="${joke.category.name}"></b>
                     </div>
-                    <ul class="list-group list-group-flush" th:each="joke : ${jokes}">
+                    <ul class="list-group list-group-flush" >
                         <li class="list-group-item" th:text="${joke.setup}"></li>
                         <li class="list-group-item" th:text="${joke.punchline}"></li>
                     </ul>

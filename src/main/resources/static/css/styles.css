@@ -11255,3 +11255,6 @@ body {
 .categories .card:hover{
     cursor:pointer;
 }
+.list-group{
+    border:1px solid #0000008f!important;
+}

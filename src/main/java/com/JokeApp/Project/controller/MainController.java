@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -50,11 +53,21 @@ public class MainController {
     public String getJokesByCategory(@PathVariable String categoryName, Model model){
         RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<Joke[]> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/jokes/category?category=" + categoryName, Joke[].class);
-
-        List<Joke> jokes = List.of(responseEntity.getBody());
+        Joke[] jokeArray = restTemplate.getForObject("http://localhost:8080/api/jokes/category?category=" + categoryName, Joke[].class);
+        List<Joke> jokes = Arrays.asList(jokeArray);
+        Collections.shuffle(jokes);
         model.addAttribute("jokes", jokes);
-        System.out.println(jokes.get(0).getCategory().getName());
         return "category-jokes";
+    }
+
+    @GetMapping("/explore")
+    public String getAllJokes(Model model){
+        RestTemplate restTemplate = new RestTemplate();
+
+        Joke[] jokesArray = restTemplate.getForObject("http://localhost:8080/api/jokes", Joke[].class);
+        List<Joke> jokes = Arrays.asList(jokesArray);
+        Collections.shuffle(jokes);
+        model.addAttribute("jokes", jokes);
+        return "explore";
     }
 }
