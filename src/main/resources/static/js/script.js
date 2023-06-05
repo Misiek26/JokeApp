@@ -19,3 +19,7 @@ function displaySuccessCommunicat(){
 }
 
 displaySuccessCommunicat();
+
+function updateJoke(id){
+    console.log(id);
+}
