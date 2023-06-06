@@ -29,6 +29,11 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
     public List<UserJoke> getUserJokes(Integer userId) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
 
