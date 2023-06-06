@@ -49,3 +49,19 @@ function updateJokeForm(){
           }
       })
 }
+
+function deleteJoke(jokeId){
+    if(confirm("Are you sure you want to delete this joke?"))
+    {
+        fetch('/api/jokes/'+jokeId,{
+           method: "DELETE"
+        }).then(response => {
+              if (response.ok) {
+                  location.href="http://localhost:8080/manage/delete-joke?success";
+              } else {
+                  location.href="http://localhost:8080/error";
+              }
+          })
+    }
+
+}

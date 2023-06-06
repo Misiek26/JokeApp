@@ -60,6 +60,7 @@ public class ManageController {
 
         return "manage/update-joke-form";
     }
+
     @GetMapping("/search-joke")
     public String searchJoke(Model model) throws JsonProcessingException {
         int userId = 1;
@@ -72,5 +73,19 @@ public class ManageController {
         model.addAttribute("userJokes", userJokes);
 
         return "manage/search-joke";
+    }
+
+    @GetMapping("/delete-joke")
+    public String deleteJoke(Model model) throws JsonProcessingException {
+        int userId = 1;
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity("http://localhost:8080/api/user-jokes/" + userId, String.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<UserJoke> userJokes = objectMapper.readValue(responseEntity.getBody(), new TypeReference<List<UserJoke>>() {});
+
+        model.addAttribute("userJokes", userJokes);
+
+        return "manage/delete-joke";
     }
 }
