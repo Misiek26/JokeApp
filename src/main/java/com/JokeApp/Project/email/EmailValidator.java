@@ -1,4 +1,4 @@
-package com.JokeApp.Project.registration;
+package com.JokeApp.Project.email;
 
 import org.springframework.stereotype.Service;
 

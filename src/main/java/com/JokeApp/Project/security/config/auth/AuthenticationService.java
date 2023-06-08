@@ -1,53 +1,84 @@
-package com.JokeApp.Project.registration;
+package com.JokeApp.Project.security.config.auth;
 
 import com.JokeApp.Project.email.EmailSender;
 import com.JokeApp.Project.model.User;
 import com.JokeApp.Project.model.UserRole;
-import com.JokeApp.Project.registration.token.ConfirmationToken;
-import com.JokeApp.Project.registration.token.ConfirmationTokenService;
+import com.JokeApp.Project.email.EmailValidator;
+import com.JokeApp.Project.security.config.token.Token;
+import com.JokeApp.Project.security.config.token.TokenRepository;
+import com.JokeApp.Project.security.config.token.TokenService;
+import com.JokeApp.Project.repository.UserRepository;
+import com.JokeApp.Project.security.config.JwtService;
 import com.JokeApp.Project.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
-@AllArgsConstructor
-public class RegistrationService {
-
-    private final EmailValidator emailValidator;
+@RequiredArgsConstructor
+public class AuthenticationService {
+    private final UserRepository userRepository;
     private final UserService userService;
-    private final ConfirmationTokenService confirmationTokenService;
+    private final TokenRepository tokenRepository;
+    private final TokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
     private final EmailSender emailSender;
+    private final EmailValidator emailValidator;
 
-    public String register(RegistrationRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
 
-        String token = userService.signUpUser(
-                new User(
-                        request.getFirstName(),
-                        request.getLastName(),
-                        request.getEmail(),
-                        request.getPassword(),
-                        UserRole.USER
-                )
-        );
+        if(request.getRole()==null){
+            request.setRole(UserRole.USER);
+        }
+        var user = User.builder()
+                .firstName(request.getFirstname())
+                .lastName(request.getLastname())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .locked(false)
+                .userRole(request.getRole())
+                .build();
 
-        String link = "http://localhost:8080/api/registration/confirm?token=" + token;
+        var savedUser = userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+
+        Token tokenToSave = new Token();
+        tokenToSave.setToken(jwtToken);
+        tokenToSave.setUser(savedUser);
+        tokenToSave.setCreatedAt(LocalDateTime.now());
+        tokenToSave.setExpiresAt(LocalDateTime.now().plusMinutes(15));
+        tokenRepository.save(tokenToSave);
+
+        String link = "http://localhost:8080/api/auth/confirm?token=" + tokenToSave.getToken();
+
+        if(request.getRole()!=UserRole.USER){
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .build();
+        }
 
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getFirstName(), link));
-        return token;
+                buildEmail(request.getFirstname(), link));
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 
     public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService
+        Token confirmationToken = tokenService
                 .getToken(token)
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
@@ -62,9 +93,24 @@ public class RegistrationService {
             throw new IllegalStateException("token expired");
         }
 
-        confirmationTokenService.setConfirmedAt(token);
+        tokenService.setConfirmedAt(token);
         userService.enableUser(confirmationToken.getUser().getEmail());
         return "confirmed";
+    }
+
+    public AuthenticationResponse authenticate(AuthenticationRequest request){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 
     private String buildEmail(String name, String link) {
@@ -135,4 +181,6 @@ public class RegistrationService {
                 "\n" +
                 "</div></div>";
     }
+
+
 }

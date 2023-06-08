@@ -1,8 +1,6 @@
 package com.JokeApp.Project.service;
 
 import com.JokeApp.Project.model.User;
-import com.JokeApp.Project.registration.token.ConfirmationToken;
-import com.JokeApp.Project.registration.token.ConfirmationTokenService;
 import com.JokeApp.Project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,15 +18,12 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
 
     @Autowired
     public UserService(UserRepository userRepository,
-                       BCryptPasswordEncoder bCryptPasswordEncoder,
-                       ConfirmationTokenService confirmationTokenService) {
+                       BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.confirmationTokenService = confirmationTokenService;
     }
 
     public List<User> getAllUsers() {
@@ -61,31 +56,6 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(()->new UsernameNotFoundException("user with email %s not found"));
     }
 
-    public String signUpUser(User user){
-        boolean userExists = userRepository.findByEmail(user.getEmail())
-                .isPresent();
-        if(userExists){
-            throw new IllegalStateException("email already taken");
-        }
-
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-
-        user.setPassword(encodedPassword);
-
-        userRepository.save(user);
-
-        String token = UUID.randomUUID().toString();
-
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-            token,
-            LocalDateTime.now(),
-            LocalDateTime.now().plusMinutes(30),
-            user
-        );
-
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
-    }
     public int enableUser(String email) {
         return userRepository.enableUser(email);
     }

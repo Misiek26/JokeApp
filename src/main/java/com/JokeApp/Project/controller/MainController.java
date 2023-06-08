@@ -78,12 +78,6 @@ public class MainController {
 
     @GetMapping("/manage")
     public String getManage(){
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        Joke[] jokesArray = restTemplate.getForObject("http://localhost:8080/api/jokes", Joke[].class);
-//        List<Joke> jokes = Arrays.asList(jokesArray);
-//        Collections.shuffle(jokes);
-//        model.addAttribute("jokes", jokes);
         return "manage";
     }
 }

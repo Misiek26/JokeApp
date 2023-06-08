@@ -22,14 +22,12 @@ public class EmailService implements EmailSender{
     @Async
     public void send(String to, String email) {
         try{
-            System.out.println(mailSender);
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject("Confirm your email");
             helper.setFrom("info@jokeapp.com");
-            System.out.println(mailSender);
             mailSender.send(mimeMessage);
         }catch(MessagingException e){
             LOGGER.error("fail to send email", e);
