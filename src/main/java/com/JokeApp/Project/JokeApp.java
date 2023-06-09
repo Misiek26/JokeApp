@@ -2,6 +2,7 @@ package com.JokeApp.Project;
 
 import com.JokeApp.Project.model.User;
 import com.JokeApp.Project.model.UserRole;
+import com.JokeApp.Project.security.config.auth.AuthenticationRequest;
 import com.JokeApp.Project.security.config.auth.AuthenticationService;
 import com.JokeApp.Project.security.config.auth.RegisterRequest;
 import org.springframework.boot.CommandLineRunner;

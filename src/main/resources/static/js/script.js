@@ -63,5 +63,4 @@ function deleteJoke(jokeId){
               }
           })
     }
-
 }

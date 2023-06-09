@@ -8,6 +8,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,8 +26,15 @@ import java.util.List;
 
 @Controller
 public class MainController {
+
+    @GetMapping("authenticate")
+    public String authenticate(Model model,HttpServletRequest request ,HttpServletResponse response) throws JsonProcessingException {
+        request.getHeader("Authorization");
+        return "index";
+    }
+
     @GetMapping("/")
-    public String main(Model model) throws JsonProcessingException {
+    public String main(Model model, HttpServletResponse response) throws JsonProcessingException {
         model.addAttribute("userJokes", getUserJokes(1));
         return "index";
     }
@@ -32,6 +42,11 @@ public class MainController {
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+
+    @GetMapping("/register")
+    public String register(){
+        return "register";
     }
 
     public List<UserJoke> getUserJokes(Integer userId) throws JsonProcessingException {

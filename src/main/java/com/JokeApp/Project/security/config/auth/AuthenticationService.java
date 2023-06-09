@@ -95,8 +95,33 @@ public class AuthenticationService {
 
         tokenService.setConfirmedAt(token);
         userService.enableUser(confirmationToken.getUser().getEmail());
+//        AuthenticationRequest authUser = AuthenticationRequest.builder()
+//                .email(confirmationToken.getUser().getEmail())
+//                .password(confirmationToken.getUser().getPassword())
+//                .build();
+//        authenticateAfterRegistration(authUser);
         return "confirmed";
     }
+
+//    public AuthenticationResponse authenticateAfterRegistration(AuthenticationRequest request){
+//        System.out.println("pkt0");
+//        authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        request.getEmail(),
+//                        request.getPassword()
+//                )
+//        );
+//        System.out.println("pkt1");
+//        var user = userRepository.findByEmail(request.getEmail())
+//                .orElseThrow();
+//        var jwtToken = jwtService.generateToken(user);
+//
+//        System.out.println("Authintication");
+//
+//        return AuthenticationResponse.builder()
+//                .token(jwtToken)
+//                .build();
+//    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
         authenticationManager.authenticate(
@@ -108,6 +133,7 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
+
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -181,6 +207,4 @@ public class AuthenticationService {
                 "\n" +
                 "</div></div>";
     }
-
-
 }
