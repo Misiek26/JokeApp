@@ -24,3 +24,5 @@ Jokes generator uses of external api and displays joke's content after previousl
 <br>
 
 ![mainpanel](https://github.com/Misiek26/JokeApp/assets/78620383/88ec20fc-6365-4147-b387-c841ffd3cf2c)
+
+[![Language](https://img.shields.io/badge/language-Java-orange.svg)](https://java.com)
