@@ -1,4 +1,3 @@
-<h1 align="center">JokeApp is authorial application to generate random jokes and management others using dashboard.</h1>
 <div align="center">
 <ul type="none">
  <li><h1>Technologies:</h1></li>
@@ -10,6 +9,8 @@
  <li><h3>MYSQL</h3></li>
 </ul>
 </div>
+<br>
+<h3>JokeApp is authorial application to generate random jokes and management others using dashboard.</h3>
 <br>
 <h3>User is created and authorizated using email's authorization.
 Jokes generator uses of external api and displays joke's content after previously setting category.</h3>    
