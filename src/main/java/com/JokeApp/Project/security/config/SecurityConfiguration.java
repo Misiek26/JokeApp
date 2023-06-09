@@ -24,18 +24,18 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//            .csrf(csrf->csrf.disable())
-//            .authorizeHttpRequests(authz -> authz
-//                    .requestMatchers("/css/**", "/js/**", "/api/registration/**", "/api/auth/**", "/register").permitAll()
-//                    .anyRequest().authenticated())
-//                    .sessionManagement(sessionManagement ->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                    .authenticationProvider(authenticationProvider)
-//                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                    .formLogin(form->form
-//                            .loginPage("/login")
-//                            .permitAll()
-//                            .defaultSuccessUrl("/"));
+        http
+            .csrf(csrf->csrf.disable())
+            .authorizeHttpRequests(authz -> authz
+                    .requestMatchers("/css/**", "/js/**", "/api/registration/**", "/api/auth/**", "/register").permitAll()
+                    .anyRequest().authenticated())
+                    .sessionManagement(sessionManagement ->sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .authenticationProvider(authenticationProvider)
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                    .formLogin(form->form
+                            .loginPage("/login")
+                            .permitAll()
+                            .defaultSuccessUrl("/"));
 
         return http.build();
     }
